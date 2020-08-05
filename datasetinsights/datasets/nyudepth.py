@@ -1,9 +1,9 @@
-"""Load NYU Depth V2 data.
+"""Load NYU Depth V2 io.
 
 Downloaded NYUDepth dataset link:
     https://drive.google.com/drive/folders/1TzwfNA5JRFTPO-kHMU___kILmOEodoBo
 This dataset is not the official NYU Depth V2 datset.
-The data are preprocessed.
+The io are preprocessed.
 For more information, see the link below:
     https://github.com/ialhashim/DenseDepth
 """
@@ -19,11 +19,11 @@ from datasetinsights.storage.gcs import GCSClient
 
 from .base import Dataset
 
-NYU_GCS_PATH = "data/nyudepth"
+NYU_GCS_PATH = "io/nyudepth"
 NYUDEPTH_LOCAL_PATH = "nyudepth"
 SPLITS = ["train", "val", "test"]
 ZIPFILE = "nyu_v2_subset_data.zip"
-UNZIP_NAME = "data"
+UNZIP_NAME = "io"
 REAL_IMAGE_HEADER = "real"
 TARGET_IMAGE_HEADER = "target"
 
@@ -34,7 +34,7 @@ class NyuDepth(Dataset):
     """
     Attributes:
         root (str): local directory where nyu_v2 dataset is saved
-        nyu2_data (Pandas DataFrame): training or testing data
+        nyu2_data (Pandas DataFrame): training or testing io
         split (str): test or valuation. see SPLITS constant for possible values
     """
 
@@ -94,11 +94,11 @@ class NyuDepth(Dataset):
 
     def download(self, cloud_path):
         """Download nyu_v2 dataset
-        The directory structure of the downloaded data is
+        The directory structure of the downloaded io is
         |--self.root
            |--nyudepth
                |--nyu_data.zip
-               |--data
+               |--io
                    |--nyu2_test.csv
                    |--nyu2_test
                          |--00000_colors.png

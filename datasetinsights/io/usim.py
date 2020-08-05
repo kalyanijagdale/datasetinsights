@@ -12,10 +12,12 @@ from requests.packages.urllib3.util.retry import Retry
 from tqdm import tqdm
 
 import datasetinsights.constants as const
-from datasetinsights.data.download import TimeoutHTTPAdapter, download_file
-from datasetinsights.data.exceptions import DownloadError
-
-from .tables import DATASET_TABLES, FileType
+from datasetinsights.datasets.unity_perception.tables import (
+    DATASET_TABLES,
+    FileType,
+)
+from datasetinsights.io.download import TimeoutHTTPAdapter, download_file
+from datasetinsights.io.exceptions import DownloadError
 
 logger = logging.getLogger(__name__)
 # number of workers for ThreadPoolExecutor. This is the default value
@@ -30,7 +32,7 @@ DEFAULT_MAX_RETRIES = 5
 def _filter_unsuccessful_attempts(manifest_df):
     """
     remove all rows from a dataframe where a greater attempt_id exists for
-    the 'instance_id'. This is necessary so that we avoid using data from
+    the 'instance_id'. This is necessary so that we avoid using io from
     a failed USim run and only get the most recent retry.
     Args:
         manifest_df (pandas df): must have columns 'attempt_id', 'app_param_id'
@@ -56,14 +58,14 @@ def _filter_unsuccessful_attempts(manifest_df):
 
 
 class Downloader:
-    """Parse a given manifest file to download simulation output
+    """Parse a given manifest file to download unity_perception output
 
     For more on Unity Simulation please see these
     `docs <https://github.com/Unity-Technologies/Unity-Simulation-Docs>`_
 
     Attributes:
         manifest (DataFrame): the csv manifest file stored in a pandas dataframe
-        data_root (str): root directory where the simulation output should
+        data_root (str): root directory where the unity_perception output should
             be downloaded
         use_cache (bool): use cache instead of re-download if file exists
     """
@@ -84,7 +86,7 @@ class Downloader:
 
         Args:
             manifest_file (str): path to a manifest file
-            data_root (str): root directory where the simulation output should
+            data_root (str): root directory where the unity_perception output should
                 be downloaded
             use_cache (bool): use cache instead of re-download if file exists
         """
@@ -134,8 +136,8 @@ class Downloader:
     )
     def download_references(self):
         """ Download all reference files.
-        All reference tables are static tables during the simulation.
-        This typically comes from the definition of the simulation and should
+        All reference tables are static tables during the unity_perception.
+        This typically comes from the definition of the unity_perception and should
         be created before tasks running distributed at different instances.
         """
         logger.info("Downloading references files...")
@@ -193,9 +195,9 @@ class Downloader:
         """ Download matched rows in a manifest file.
 
         Note:
-        We might need to download 1M+ of simulation output files, in this case
+        We might need to download 1M+ of unity_perception output files, in this case
         we don't want to have a single file transfer failure holding back on
-        getting the simulation data. Here download exception are captured.
+        getting the unity_perception io. Here download exception are captured.
         We only log an error message and requires uses to pay attention to
         this error.
 
@@ -259,7 +261,7 @@ def download_manifest(
     """
     api_endpoint = const.USIM_API_ENDPOINT
     project_url = f"{api_endpoint}/v1/projects/{project_id}/"
-    data_url = f"{project_url}runs/{run_execution_id}/data"
+    data_url = f"{project_url}runs/{run_execution_id}/io"
     if Path(manifest_file).exists() and use_cache:
         logger.info(
             f"Mainfest file {manifest_file} already exists. Skipping downloads."

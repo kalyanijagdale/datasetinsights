@@ -1,8 +1,8 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-import datasetinsights.data.datasets.statistics as stat
-import datasetinsights.visualization.constants as constants
+import datasetinsights.stats.statistics as stat
+import datasetinsights.stats.visualization.constants as constants
 
 from .plots import bar_plot, histogram_plot
 
@@ -13,7 +13,7 @@ def generate_total_counts_figure(max_samples, roinfo):
     Args:
         max_samples(int): maximum number of samples that will be included
             in the plot.
-        roinfo(datasetinsights.data.datasets.statistics.RenderedObjectInfo):
+        roinfo(datasetinsights.datasets.statistics.RenderedObjectInfo):
             Rendered Object Info in Captures.
 
     Returns:
@@ -38,7 +38,7 @@ def generate_per_capture_count_figure(max_samples, roinfo):
     Args:
         max_samples(int): maximum number of samples that will be included
             in the plot.
-        roinfo(datasetinsights.data.datasets.statistics.RenderedObjectInfo):
+        roinfo(datasetinsights.datasets.statistics.RenderedObjectInfo):
             Rendered Object Info in Captures.
 
     Returns:
@@ -62,7 +62,7 @@ def generate_pixels_visible_per_object_figure(max_samples, roinfo):
     Args:
         max_samples(int): maximum number of samples that will be included
             in the plot.
-        roinfo(datasetinsights.data.datasets.statistics.RenderedObjectInfo):
+        roinfo(datasetinsights.datasets.statistics.RenderedObjectInfo):
             Rendered Object Info in Captures.
 
     Returns:

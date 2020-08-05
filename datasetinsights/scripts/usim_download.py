@@ -10,7 +10,7 @@ import os
 from pathlib import Path
 
 import datasetinsights.constants as const
-from datasetinsights.data.simulation.download import (
+from datasetinsights.datasets.unity_perception import (
     Downloader,
     download_manifest,
 )
@@ -38,7 +38,7 @@ def parse_args():
         help="turn on verbose mode to enable debug logging",
     )
     parser.add_argument(
-        "--data-root",
+        "--io-root",
         type=str,
         default=const.DEFAULT_DATA_ROOT,
         help="root directory of datasets",
@@ -48,7 +48,7 @@ def parse_args():
         type=str,
         help=(
             "authorization token to fetch USim manifest file that specified "
-            "signed URLs for the simulation dataset files."
+            "signed URLs for the unity_perception dataset files."
         ),
     )
     parser.add_argument(

@@ -3,8 +3,8 @@
 import numpy as np
 from PIL import Image
 
-from datasetinsights.data.bbox import BBox2D
-from datasetinsights.data.datasets import Dataset
+from datasetinsights.datasets import Dataset
+from datasetinsights.io.bbox import BBox2D
 
 
 class DummyDetection2D(Dataset):
@@ -48,7 +48,7 @@ class DummyDetection2D(Dataset):
         return len(self.images)
 
     def __getitem__(self, index):
-        """get data point."""
+        """get io point."""
         image, bboxes = self.images[index], self.bboxes[index]
 
         if self.transform:

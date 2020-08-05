@@ -21,11 +21,10 @@ class Captures:
 
     .. code-block:: python
 
-        >>> captures = Captures(data_root="/data")
-        #captures class automatically loads the captures (e.g. lidar scan,
+        >>> captures = Captures(data_root=ioio      #captures class automatically loads the captures (e.g. lidar scan,
         image, depth map) and the annotations (e.g semantic segmentation
         labels, bounding boxes, etc.)
-        >>> data = captures.filter(def_id="6716c783-1c0e-44ae-b1b5-7f068454b66e") # noqa E501 table command not be broken down into multiple lines
+        >>> data ioptures.filter(def_id="6716c783-1c0e-44ae-b1b5-7f068454b66e") # noqa E501 table command not be broken down into multiple lines
         #return the captures and annotations filtered by the annotation
         definition id
 
@@ -60,10 +59,8 @@ class Captures:
             Columns: 'id' (UUID of the capture), 'sequence_id',
             'step' (index of captures), 'timestamp' (Simulation timestamp in
             milliseconds since the sequence started.), 'sensor'
-            (sensor attributes), 'ego' (ego pose of the simulation),
-            'filename' (single filename that stores captured data)
-
-        Example Captures DataFrame:
+            (sensor attributes), 'ego' (ego pose of the unity_perception),
+            'filename' (single filename that stores captured data)io      Example Captures DataFrame:
          id(str)      sequence_id(str)  step(int)    timestamp(float) \
          cdc8bc5c...  2954c...          300           4.979996
 
@@ -105,7 +102,7 @@ class Captures:
             Columns: 'id' (annotation id), 'annotation_definition' (annotation
             definition ID),
              'values'
-             (list of objects that store annotation data, e.g. 2d bounding
+             (list of objects that store annotation data,io. 2d bounding
              box), 'capture.id'
 
         Example Annotation Dataframe:

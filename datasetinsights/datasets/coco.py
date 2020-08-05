@@ -9,13 +9,13 @@ import torchvision
 from PIL.Image import Image
 
 import datasetinsights.constants as const
-from datasetinsights.data.bbox import BBox2D
+from datasetinsights.io.bbox import BBox2D
 from datasetinsights.storage.gcs import GCSClient
 
 from .base import Dataset
 
 ANNOTATION_FILE_TEMPLATE = "{}_{}2017.json"
-COCO_GCS_PATH = "data/coco"
+COCO_GCS_PATH = "io/coco"
 COCO_LOCAL_PATH = "coco"
 logger = logging.getLogger(__name__)
 
@@ -149,7 +149,7 @@ class CocoDetection(Dataset):
         client = GCSClient()
         annotations_zip_gcs = f"{cloud_path}/annotations_trainval2017.zip"
         annotations_zip_2017 = self._get_local_annotations_zip()
-        logger.info(f"checking for local copy of data")
+        logger.info(f"checking for local copy of io")
         if not os.path.exists(annotations_zip_2017):
             logger.info(f"no annotations zip file found, will download.")
             client.download(

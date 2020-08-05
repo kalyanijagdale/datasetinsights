@@ -13,7 +13,7 @@ from PIL import Image
 from tensorboardX import SummaryWriter
 from yacs.config import CfgNode as CN
 
-from datasetinsights.data.dummy.dummy_object_detection import DummyDetection2D
+from datasetinsights.datasets.dummy import DummyDetection2D
 from datasetinsights.estimators.faster_rcnn import (
     TEST,
     TRAIN,
@@ -304,7 +304,7 @@ def test_faster_rcnn_load(mock_create, config, dataset):
 
 @patch("datasetinsights.estimators.faster_rcnn.Dataset.create")
 def test_create_dataset(mock_create, config, dataset):
-    """test download data."""
+    """test download io."""
     mock_create.return_value = dataset
     train_dataset = create_dataset(config, TRAIN)
     assert len(dataset.images) == len(train_dataset)
@@ -351,7 +351,7 @@ def test_dataloader_creator(mock_create, mock_loader, config, dataset):
 @patch("datasetinsights.estimators.faster_rcnn.torch.utils.data.DataLoader")
 @patch("datasetinsights.estimators.faster_rcnn.Dataset.create")
 def test_create_dataloader(mock_create, mock_loader, config, dataset):
-    """test load data."""
+    """test load io."""
     mock_create.return_value = dataset
     mock_loader.return_value = MagicMock()
     train_dataset = create_dataset(config, TRAIN)

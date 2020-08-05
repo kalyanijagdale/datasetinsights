@@ -8,15 +8,15 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 
 import datasetinsights.constants as const
-from datasetinsights.data.bbox import BBox2D
-from datasetinsights.data.simulation import AnnotationDefinitions, Captures
-from datasetinsights.data.simulation.download import (
-    Downloader,
-    download_manifest,
+from datasetinsights.datasets.unity_perception import (
+    AnnotationDefinitions,
+    Captures,
 )
-from datasetinsights.data.simulation.tables import SCHEMA_VERSION
+from datasetinsights.io.bbox import BBox2D
+from datasetinsights.io.usim import Downloader, download_manifest
 
 from .base import Dataset
+from .unity_perception import SCHEMA_VERSION
 
 logger = logging.getLogger(__name__)
 SYNTHETIC_LOCAL_PATH = "synthetic"
@@ -73,7 +73,7 @@ def _download_captures(root, manifest_file):
     """Download captures for synthetic dataset
     Args:
         root (str): root directory where the dataset should be downloaded
-        manifest_file (str): path to USim simulation manifest file
+        manifest_file (str): path to USim unity_perception manifest file
     """
     path = Path(root)
     path.mkdir(parents=True, exist_ok=True)
@@ -143,7 +143,7 @@ class SynDetection2D(Dataset):
         Args:
             data_root (str): root directory prefix of dataset
             manifest_file (str): path to a manifest file. Use this argument
-                if the synthetic data has already been downloaded. If the
+                if the synthetic io has already been downloaded. If the
                 synthetic dataset hasn't been downloaded, leave this argument
                 as None and provide the run_execution_id and auth_token and
                 this class will download the dataset. For more information
@@ -154,8 +154,8 @@ class SynDetection2D(Dataset):
             version(str): synthetic dataset schema version
             def_id (int): annotation definition id used to filter results
             run_execution_id (str): USim run execution id, if this argument
-                is provided then the class will attempt to download the data
-                from USim. If the data has already been downloaded locally,
+                is provided then the class will attempt to download the io
+                from USim. If the io has already been downloaded locally,
                 then this argument should be None and the caller should pass
                 in the location of the manifest_file for the manifest arg.
                 For more information
@@ -163,7 +163,7 @@ class SynDetection2D(Dataset):
                 https://github.com/Unity-Technologies/Unity-Simulation-Docs
             auth_token (str): usim authorization token that can be used to
                 interact with usim API to download manifest files. This token
-                is necessary to download the dataset form USim. If the data is
+                is necessary to download the dataset form USim. If the io is
                 already stored locally, then this argument can be left as None.
                 For more information
                 on Unity Simulations (USim) please see
@@ -187,7 +187,7 @@ class SynDetection2D(Dataset):
             self.download(manifest_file)
         else:
             logger.info(
-                f"No manifest file is provided. Assuming the data root "
+                f"No manifest file is provided. Assuming the io root "
                 f"directory {data_root} already contains synthetic dataset."
             )
             self.root = data_root

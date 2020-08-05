@@ -5,16 +5,16 @@ from unittest.mock import patch
 
 import pandas as pd
 
-from datasetinsights.data.bbox import BBox2D
-from datasetinsights.data.datasets.synthetic import (
+from datasetinsights.datasets.synthetic import (
     SYNTHETIC_LOCAL_PATH,
     SynDetection2D,
     _get_split,
     read_bounding_box_2d,
 )
+from datasetinsights.io.bbox import BBox2D
 
 
-@patch("datasetinsights.data.datasets.synthetic._download_captures")
+@patch("datasetinsights.datasets.synthetic._download_captures")
 def test_syn_detection_2d(mock_data):
     parent_dir = Path(__file__).parent.parent.absolute()
     mock_data_dir = str(parent_dir / "mock_data" / "simrun")
@@ -29,7 +29,7 @@ def test_syn_detection_2d(mock_data):
             data_root=tmp_dir, manifest_file=manifest_file, def_id=4,
         )
 
-        # From mock data, only one of the capture has 2D bounding box
+        # From mock io, only one of the capture has 2D bounding box
         # annotations.
         assert len(syn_det_2d) == 1
         assert len(syn_det_2d[0]) == 2

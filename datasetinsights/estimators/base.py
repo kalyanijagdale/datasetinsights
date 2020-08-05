@@ -7,7 +7,7 @@ class Estimator(metaclass=ABCMeta):
     An estimator is the master class of all modeling operations. At minimum,
     it includes:
 
-    1. input data and output data transformations (e.g. input image cropping,
+    1. input io and output io transformations (e.g. input image cropping,
     remove unused output labels...) when applicable.
     2. neural network graph (model) for either pytorch or tensorflow.
     3. procedures to execute model training and evaluation.

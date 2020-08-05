@@ -7,9 +7,9 @@ from tensorboardX import SummaryWriter
 from yacs.config import CfgNode as CN
 
 import datasetinsights.constants as const
+from datasetinsights.datasets import Dataset
 
 from .configs import system
-from .data.datasets import Dataset
 from .estimators import Estimator
 from .storage.checkpoint import EstimatorCheckpoint
 from .storage.kfp_output import KubeflowPipelineWriter
@@ -95,11 +95,11 @@ def parse_args():
         default=system.auth_token,
         help=(
             "authorization token to fetch USim manifest file that speficed "
-            "signed URLs for the simulation dataset files."
+            "signed URLs for the unity_perception dataset files."
         ),
     )
     parser.add_argument(
-        "--data-root",
+        "--io-root",
         type=str,
         default=system.data_root,
         help="root directory of all datasets",
@@ -116,7 +116,7 @@ def parse_args():
         type=int,
         metavar="N",
         default=system.workers,
-        help="number of data loading workers",
+        help="number of io loading workers",
     )
     parser.add_argument(
         "-c",
@@ -208,7 +208,7 @@ def run(command, cfg):
         # enable download synthetic dataset. Usim is working on a solution
         # that will enable customers to sprcify cloud storage path
         # to store simulations. In the future, we should simply rely
-        # on gcs service accounts to access simulation data for a given
+        # on gcs service accounts to access unity_perception io for a given
         # run execution id.
         Dataset.create(
             cfg.train.dataset.name,

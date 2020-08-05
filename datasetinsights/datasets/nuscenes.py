@@ -10,12 +10,12 @@ from nuscenes.utils.data_classes import Box
 from torch.utils.data import Dataset
 
 import datasetinsights.constants as const
-from datasetinsights.data.bbox import BBox3d
+from datasetinsights.io.bbox import BBox3d
 from datasetinsights.storage.gcs import GCSClient
 
 logger = logging.getLogger(__name__)
 
-NUSCENES_GCS_PATH = "data/nuscenes"
+NUSCENES_GCS_PATH = "io/nuscenes"
 NUSCENES_LOCAL_PATH = "sets/nuscenes"
 CAMERA_KEYS = [
     "CAM_FRONT",
@@ -49,7 +49,7 @@ class NuscenesDataLoader(Dataset):
         data_root (str): root directory prefix of all datasets
         split: test or valuation. see SPLITS constant for possible values
         version: numerical version of nuscenes dataset.
-        sensor_data: what sensor data to use, can be any of the strings in
+        sensor_data: what sensor io to use, can be any of the strings in
         SENSOR_DATA_KEYS
         full_dataset: whether to use the full dataset. If false, use the mini
         dataset
@@ -61,7 +61,7 @@ class NuscenesDataLoader(Dataset):
         log coordinates. Options: 'sensor' or 'global'
 
     Attributes:
-        root: directory where nuscenes data is stored. If no value is provided,
+        root: directory where nuscenes io is stored. If no value is provided,
             the specified version of nuscenes is downloaded.
     """
 
@@ -111,9 +111,9 @@ class NuscenesDataLoader(Dataset):
         self.coordinates = coordinates
 
     def _merge_data_blobs(self, blob, canonical_dir):
-        """Merge the data blobs together which comprise the v1.0-trainval
+        """Merge the io blobs together which comprise the v1.0-trainval
         dataset.
-        The structure of each data blob in the nuscenes dataset is
+        The structure of each io blob in the nuscenes dataset is
         -v1.0-trainval01_blobs
          |-samples
            |-CAM_FRONT
@@ -131,7 +131,7 @@ class NuscenesDataLoader(Dataset):
            |-CAM_FRONT
            |-...all sensors
         Args:
-            blob: filename of data blob
+            blob: filename of io blob
             canonical_dir: filename of directory to store all samples find in
             all datablobs
         """
@@ -147,7 +147,7 @@ class NuscenesDataLoader(Dataset):
         """
 
         Returns:
-            Tuple: First item is the path to the meta data dir, and the second
+            Tuple: First item is the path to the meta io dir, and the second
              item is a list of paths to the
             tarballs comprising the nuscenes trainval dataset
         """
@@ -189,7 +189,7 @@ class NuscenesDataLoader(Dataset):
 
     def download(self, version="v1.0-mini"):
         """
-        download the nuscenes dataset version specified to /data/sets/nuscenes
+        download the nuscenes dataset version specified to /io/sets/nuscenes
         """
         self.cloud_client = GCSClient()
         if version == "v1.0-mini":
@@ -233,7 +233,7 @@ class NuscenesDataLoader(Dataset):
             item: index
         Returns:
             Dictionary: mapping the name of each sensor to the list of bounding
-             boxes found in that sensor's data
+             boxes found in that sensor's io
 
         """
         data = {}
@@ -241,7 +241,7 @@ class NuscenesDataLoader(Dataset):
         sample_timeframe = self.nu.get("sample", sample_token)
         if self.coordinates == SENSOR:
             for sensor in self.data_keys:
-                sensor_token = sample_timeframe["data"][sensor]
+                sensor_token = sample_timeframe["io"][sensor]
                 data_path, nu_boxes, camera = self.nu.get_sample_data(
                     sensor_token
                 )
@@ -249,7 +249,7 @@ class NuscenesDataLoader(Dataset):
                 data[sensor] = bboxes
         elif self.coordinates == GLOBAL:
             for sensor in self.data_keys:
-                sensor_token = sample_timeframe["data"][sensor]
+                sensor_token = sample_timeframe["io"][sensor]
                 nu_boxes = self.nu.get_boxes(sensor_token)
                 bboxes = [self._nu_box2bbox3d(b, item) for b in nu_boxes]
                 data[sensor] = bboxes

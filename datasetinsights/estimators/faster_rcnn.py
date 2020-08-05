@@ -13,10 +13,10 @@ import torchvision
 from codetiming import Timer
 
 import datasetinsights.constants as const
-from datasetinsights.data.bbox import BBox2D
-from datasetinsights.data.datasets import Dataset
-from datasetinsights.data.transforms import Compose
+from datasetinsights.datasets import Dataset
 from datasetinsights.evaluation_metrics.base import EvaluationMetric
+from datasetinsights.io.bbox import BBox2D
+from datasetinsights.io.transforms import Compose
 from datasetinsights.torch_distributed import get_world_size
 
 from .base import Estimator
@@ -302,7 +302,7 @@ class FasterRCNN(Estimator):
         """Evaluate model performance per epoch.
 
         Note, torchvision's implementation of faster
-        rcnn requires input and gt data for training mode and returns a
+        rcnn requires input and gt io for training mode and returns a
         dictionary of losses (which we need to record the loss). We also need to
         get the raw predictions, which is only possible in model.eval() mode,
         to calculate the evaluation metric.
@@ -456,12 +456,12 @@ class FasterRCNN(Estimator):
 
     @staticmethod
     def create_sampler(is_distributed, *, dataset, is_train):
-        """create sample of data.
+        """create sample of io.
 
         Args:
             is_distributed: whether or not the model is distributed
             dataset: dataset obj must have len and __get_item__
-            is_train: whether or not the sampler is for training data
+            is_train: whether or not the sampler is for training io
 
         Returns:
             data_sampler: (torch.utils.data.Sampler)
@@ -588,7 +588,7 @@ def create_dataloader(
         config: (CfgNode): estimator config:
         dataset: dataset obj must have len and __get_item__
         sampler: (torch.utils.data.Sampler)
-        train: whether or not the sampler is for training data
+        train: whether or not the sampler is for training io
         batch_size: batch_size
         num_workers: num_workers
         collate_fn: Prepare batch to be format Faster RCNN expects
@@ -633,7 +633,7 @@ def create_dataloader(
 
 
 def dataloader_creator(config, dataset, sampler, split):
-    """initiate data loading.
+    """initiate io loading.
 
     Args:
         config: (CfgNode): estimator config:

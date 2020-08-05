@@ -8,7 +8,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from PIL import ImageColor, ImageDraw, ImageFont
 
-from datasetinsights.data.datasets.cityscapes import CITYSCAPES_COLOR_MAPPING
+from datasetinsights.datasets.cityscapes import CITYSCAPES_COLOR_MAPPING
 
 logger = logging.getLogger(__name__)
 COLORS = list(ImageColor.colormap.values())
@@ -127,9 +127,9 @@ def bar_plot(
     """Create plotly bar plot
 
     Args:
-        df (pd.DataFrame): A pandas dataframe that contain bar plot data.
-        x (str): The column name of the data in x-axis.
-        y (str): The column name of the data in y-axis.
+        df (pd.DataFrame): A pandas dataframe that contain bar plot io.
+        x (str): The column name of the io in x-axis.
+        y (str): The column name of the io in y-axis.
         title (str, optional): The title of this plot.
         x_title (str, optional): The x-axis title.
         y_title (str, optional): The y-axis title.
@@ -160,8 +160,8 @@ def histogram_plot(
     """Create plotly histogram plot
 
     Args:
-        df (pd.DataFrame): A pandas dataframe that contain raw data.
-        x (str): The column name of the raw data for histogram plot.
+        df (pd.DataFrame): A pandas dataframe that contain raw io.
+        x (str): The column name of the raw io for histogram plot.
         title (str, optional): The title of this plot.
         x_title (str, optional): The x-axis title.
         y_title (str, optional): The y-axis title.
@@ -244,7 +244,7 @@ def _convert_euler_rotations_to_scatter_points(
 def rotation_plot(df, x, y, z=None, max_samples=None, title=None, **kwargs):
     """Create a plotly 3d rotation plot
     Args:
-        df (pd.DataFrame): A pandas dataframe that contains the raw data.
+        df (pd.DataFrame): A pandas dataframe that contains the raw io.
         x (str): The column name containing x rotations.
         y (str): The column name containing y rotations.
         z (str, optional): The column name containing z rotations.

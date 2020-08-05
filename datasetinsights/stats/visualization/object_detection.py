@@ -3,8 +3,8 @@ import dash_html_components as html
 import dash_table
 import pandas as pd
 
-import datasetinsights.data.simulation as sim
-import datasetinsights.visualization.constants as constants
+import datasetinsights.datasets.unity_perception as sim
+import datasetinsights.stats.visualization.constants as constants
 
 from .plots import histogram_plot, rotation_plot
 
@@ -34,13 +34,13 @@ class ScaleFactor:
 
     @staticmethod
     def generate_scale_data(captures):
-        """ Method to extract scale parameter from sensor data.
+        """ Method to extract scale parameter from sensor io.
 
         Args:
             captures(sim.Captures): a collection of capture records.
 
         Returns:
-            pandas.DataFrame: contains 'scale' parameter from the sensor data.
+            pandas.DataFrame: contains 'scale' parameter from the sensor io.
 
         """
         df_scale_factor = pd.DataFrame(
@@ -92,7 +92,7 @@ class UserParameter:
     Generate User Parameter table to be displayed on the Dashboard.
     Users parameters, such as ScaleFactors, MaxFrames,
     MaxForegroundObjectsPerFrame are used to control the domain
-    randomization parameter used in the simulation.
+    randomization parameter used in the unity_perception.
 
     Atrributes:
         metrics(sim.Metrics): a collection of metrics records

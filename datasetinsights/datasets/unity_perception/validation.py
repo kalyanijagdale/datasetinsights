@@ -3,7 +3,7 @@
 
 
 class VersionError(Exception):
-    """Raise when the data file version does not match"""
+    """Raise when the io file version does not match"""
 
     pass
 

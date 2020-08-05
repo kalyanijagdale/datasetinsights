@@ -4,7 +4,7 @@ import argparse
 import logging
 
 import datasetinsights.constants as const
-from datasetinsights.data.datasets import Dataset
+from datasetinsights.datasets import Dataset
 
 LOCAL_PATH = "groceries"
 
@@ -29,7 +29,7 @@ def parse_args():
         required=True,
     )
     parser.add_argument(
-        "--data-root",
+        "--io-root",
         type=str,
         default=const.DEFAULT_DATA_ROOT,
         help="root directory of datasets",

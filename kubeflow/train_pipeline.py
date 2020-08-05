@@ -22,10 +22,10 @@ def train_pipeline(
     """Train Pipeline
 
     This is currently configured as a three-step pipeline. 1) Create
-    a persistent volume that can be used to store data. 2) Download
-    data for the pipeline. 3) Kick off training jobs.
+    a persistent volume that can be used to store io. 2) Download
+    io for the pipeline. 3) Kick off training jobs.
     """
-    # Create large persistant volume to store training data.
+    # Create large persistant volume to store training io.
     vop = dsl.VolumeOp(
         name="train-pvc",
         resource_name="train-pvc",
@@ -43,7 +43,7 @@ def train_pipeline(
             f"--include-binary",
             f"--auth-token={auth_token}",
         ],
-        pvolumes={"/data": vop.volume},
+        pvolumes={"/io": vop.volume},
     )
     # Memory limit of download run
     download.set_memory_limit(MAX_MEMORY)
@@ -70,7 +70,7 @@ def train_pipeline(
             run_execution_id,
         ],
         # Refer to pvloume in previous step to explicitly call out dependency
-        pvolumes={"/data": download.pvolumes["/data"]},
+        pvolumes={"/io": download.pvolumes["/io"]},
     )
     # GPU limit here has to be hard coded integer instead of derived from
     # num_proc, otherwise it will fail kubeflow validation as it will create

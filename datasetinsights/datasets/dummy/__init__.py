@@ -1,0 +1,1 @@
+from .dummy_object_detection import DummyDetection2D

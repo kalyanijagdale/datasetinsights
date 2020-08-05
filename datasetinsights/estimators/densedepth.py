@@ -15,11 +15,11 @@ from torchvision.transforms import Compose
 from torchvision.transforms.functional import to_tensor
 
 import datasetinsights.constants as const
-from datasetinsights.data.datasets import Dataset
-from datasetinsights.data.loader import create_loader
-from datasetinsights.data.transforms import RandomHorizontalFlip, Resize
+from datasetinsights.datasets import Dataset
 from datasetinsights.evaluation_metrics import EvaluationMetric
-from datasetinsights.visualization.plots import grid_plot
+from datasetinsights.io.loader import create_loader
+from datasetinsights.io.transforms import RandomHorizontalFlip, Resize
+from datasetinsights.stats.visualization.plots import grid_plot
 
 from .base import Estimator
 
@@ -341,7 +341,7 @@ class DenseDepth(Estimator):
         val_interval = config.system.val_interval
         writer = self.writer
 
-        # Load data
+        # Load io
         train_dataset = Dataset.create(
             config.train.dataset,
             split="train",

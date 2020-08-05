@@ -9,7 +9,7 @@ from datasetinsights.storage.gcs import GCSClient
 
 from .base import Dataset
 
-CITYSCAPES_GCS_PATH = "data/cityscapes"
+CITYSCAPES_GCS_PATH = "io/cityscapes"
 CITYSCAPES_LOCAL_PATH = "cityscapes"
 ZIPFILES = [
     "leftImg8bit_trainvaltest.zip",

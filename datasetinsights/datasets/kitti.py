@@ -9,14 +9,14 @@ from PIL import Image
 from pyquaternion import Quaternion
 
 import datasetinsights.constants as const
-from datasetinsights.data.bbox import BBox3d
+from datasetinsights.io.bbox import BBox3d
 from datasetinsights.storage.gcs import GCSClient
 
 from .base import Dataset
 from .nuscenes import Box
 
 logger = logging.getLogger(__name__)
-KITTI_GCS_PATH = "data/kitti"
+KITTI_GCS_PATH = "io/kitti"
 SPLITS = ["train", "test", "val", "trainval"]  # test refers to KITTI's test
 # set which doesn't have labels
 
@@ -60,7 +60,7 @@ class KittiBox3d:
             position: x,y,z in camera coordinates (meters)
             dimensions: length, height, width  (meters)
             angle: angle about vertical axis in radians range [-pi, pi]
-            sample_idx: the index corresponding to the sample data (image), the
+            sample_idx: the index corresponding to the sample io (image), the
              image is stored in
             image_2/{sample_index:06d}.png
             score: confidence score (defaults to zero, to be used for ground
@@ -77,7 +77,7 @@ class KittiBox3d:
 # todo add tests
 class KittiTransforms:
     """
-    Class to hold transformation matrices for a kitti data sample see more at
+    Class to hold transformation matrices for a kitti io sample see more at
     https://github.com/yanii/kitti-pcl/blob/master/KITTI_README.TXT
     """
 
@@ -258,7 +258,7 @@ def read_kitti_objects(filename):
             if not (14 <= len(objdata) <= 15):
                 raise IOError("Invalid KITTI object file {}".format(filename))
 
-            # Parse object data
+            # Parse object io
             objects.append(
                 KittiBox3d(
                     label=objdata[0],
@@ -291,9 +291,9 @@ class Kitti(Dataset):
         """
 
         Args:
-            root: path to where data already exists or where it will be
+            root: path to where io already exists or where it will be
             downloaded to
-            split: which split of the data to use. Can be: 'train', 'test',
+            split: which split of the io to use. Can be: 'train', 'test',
             'val', 'trainval'. Can either specify split
             or indices file but not both.
             indices_file: file containing indices to use. Can either specify

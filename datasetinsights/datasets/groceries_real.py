@@ -10,9 +10,9 @@ from google.protobuf import text_format
 from PIL import Image
 
 import datasetinsights.constants as const
-from datasetinsights.data.bbox import BBox2D
-from datasetinsights.data.download import download_file, validate_checksum
-from datasetinsights.data.exceptions import ChecksumError, DownloadError
+from datasetinsights.io.bbox import BBox2D
+from datasetinsights.io.download import download_file, validate_checksum
+from datasetinsights.io.exceptions import ChecksumError, DownloadError
 from datasetinsights.storage.gcs import download_file_from_gcs
 
 from .base import Dataset
@@ -31,7 +31,7 @@ GroceriesRealTable = namedtuple(
 class GroceriesReal(Dataset):
     """Unity's Groceries Real Dataset.
 
-    During the class instantiation, it would check whehter the data is
+    During the class instantiation, it would check whehter the io is
     downloaded or not. If there is no dataset, it would raise an error.
     Please make sure you download the dataset before use this class.
 
@@ -56,7 +56,7 @@ class GroceriesReal(Dataset):
             ...
         ]
     * `groceries_real_<split>.txt` file which stores space deplimted list
-    of the indices in the annotations.json file, for a given data split.
+    of the indices in the annotations.json file, for a given io split.
 
 
     Attributes:
@@ -275,10 +275,10 @@ class GroceriesReal(Dataset):
         return json_data
 
     def _load_split_indices(self):
-        """Load the data indices txt file.
+        """Load the io indices txt file.
 
         Returns:
-            list: A list of data indices in annotations.json file.
+            list: A list of io indices in annotations.json file.
         """
         split_file = self.SPLITS.get(self.split)
         indices_file = self._filepath(split_file)
@@ -350,7 +350,7 @@ class GoogleGroceriesReal(Dataset):
             loaded from label_map_with_path_64_retail.txt
     """
 
-    GCS_PATH = "data/google_groceries"
+    GCS_PATH = "io/google_groceries"
     LOCAL_PATH = "google_groceries"
     SPLITS_ZIP = {
         "train": "Train Data.zip",

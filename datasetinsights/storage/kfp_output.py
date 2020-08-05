@@ -34,7 +34,7 @@ class KubeflowPipelineWriter(object):
 
     def add_metric(self, name, val):
         """
-        Adds metric to the data dictionary of the writer
+        Adds metric to the io dictionary of the writer
 
         Note: Using same name key will overwrite the previous value as the
         current strategy is to save only the metrics generated in last epoch

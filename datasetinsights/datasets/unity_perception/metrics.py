@@ -23,9 +23,8 @@ class Metrics:
     Attributes:
         metrics (dask.bag.core.Bag): a collection of metrics records
     Examples:
-        >>> metrics = Metrics(data_root="/data")
-        >>> metrics_df = metrics.filter_metrics(def_id="my_definition_id")
-        #metrics_df now contains all the metrics data corresponding to
+        >>> metrics = Metrics(data_root=ioio      >>> metrics_df = metrics.filter_metrics(def_id="my_definition_id")
+        #metrics_df now contains all the metrics data ioesponding to
         "my_definition_id"
 
         One example of metrics_df (first row shown below):

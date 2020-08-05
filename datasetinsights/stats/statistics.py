@@ -2,9 +2,12 @@ import logging
 from pathlib import Path
 
 import datasetinsights.constants as const
-from datasetinsights.data.simulation import MetricDefinitions, Metrics
-from datasetinsights.data.simulation.download import Downloader
-from datasetinsights.data.simulation.tables import SCHEMA_VERSION
+from datasetinsights.datasets.unity_perception import (
+    SCHEMA_VERSION,
+    MetricDefinitions,
+    Metrics,
+)
+from datasetinsights.io.usim import Downloader
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +16,7 @@ def download(data_root, manifest_file, use_cache=True):
     """Download dataset for dataset statistics
     Args:
         data_root (str): root directory where the dataset should be downloaded.
-        manifest_file (str): path to USim simulation manifest file.
+        manifest_file (str): path to USim unity_perception manifest file.
         use_cache (bool): set to False to override already downloaded files
 
     Returns
@@ -33,7 +36,7 @@ def download(data_root, manifest_file, use_cache=True):
 class RenderedObjectInfo:
     """Rendered Object Info in Captures
 
-    This metric stores common object info captured by a sensor in the simulation
+    This metric stores common object info captured by a sensor in the unity_perception
     environment. It can be used to calculate object statistics such as
     object count, object rotation and visible pixels.
 
@@ -46,10 +49,9 @@ class RenderedObjectInfo:
 
     .. code-block:: python
 
-        >>> # set the data root path to where data was stored
-        >>> data_root = "$HOME/data"
-        >>> # use rendered object info definition id
-        >>> definition_id = "659c6e36-f9f8-4dd6-9651-4a80e51eabc4"
+        >>> io
+       io data_root = io
+    io>>> # use rendered object info definition iio      >>> definition_id = "659c6e36-f9f8-4dd6-9651-4a80e51eabc4"
         >>> roinfo = RenderedObjectInfo(data_root, definition_id)
         #total object count per label dataframe
         >>> roinfo.total_counts()
