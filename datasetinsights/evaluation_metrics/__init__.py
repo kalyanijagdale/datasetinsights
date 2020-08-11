@@ -3,6 +3,7 @@ from .average_precision_2d_bbox import AveragePrecisionBBox2D
 from .average_recall_2d_bbox import AverageRecallBBox2D
 from .average_relative_error import AverageRelativeError
 from .base import EvaluationMetric
+from .confusion_matrix import precision_recall, prediction_records
 from .iou import IoU
 from .root_mean_square_error import RootMeanSquareError
 from .threshold_accuracy import ThresholdAccuracy
